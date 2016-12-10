@@ -12,15 +12,14 @@ private:
   int type;
   
 public:
-  SevenSegmentDisplay () {}
   SevenSegmentDisplay (int _ledPins, int _commonPin, int _type = COMMON_CATHODE);
   
   int getLedPins();
-  // int getCommonPin();
-  // int getType();
-  // void setLedPins(int ledPins);
-  // void setCommonPin(int commonPin);
-  // void setType(int type);
+  int getCommonPin();
+  int getType();
+  void setLedPins(int ledPins);
+  void setCommonPin(int commonPin);
+  void setType(int type);
 };
 
 #endif
