@@ -1,17 +1,15 @@
 #include <iostream>
-//#include "SevenSegmentDisplay.h"
+#include "lib/SevenSegmentDisplay.h"
 
 using namespace std;
 
 int main() {
-//  int ledPins;
-//
-//  SevenSegmentDisplay sevenSegmentDisplay(5, 3);
-//
-//  ledPins = sevenSegmentDisplay.getLedPins();
-//
-//  cout << ledPins << endl;
+  int ledPins;
 
-	cout << "Hello World!" << endl;
+  SevenSegmentDisplay sevenSegmentDisplay(5, 3);
+
+  ledPins = sevenSegmentDisplay.getLedPins();
+  cout << ledPins << endl;
+
 	return 0;
 }
