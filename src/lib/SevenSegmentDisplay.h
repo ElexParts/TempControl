@@ -3,6 +3,8 @@
 
 #define COMMON_CATHODE 0
 #define COMMON_ANODE 1
+#define LOW 0
+#define HIGH 1
 
 class SevenSegmentDisplay
 {
@@ -20,6 +22,9 @@ public:
   void setLedPins(int ledPins);
   void setCommonPin(int commonPin);
   void setType(int type);
+
+  void display(int num);
+  void digitalWrite(int ledPins, int state);
 };
 
 #endif
