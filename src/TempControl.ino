@@ -7,7 +7,6 @@
 //============================================================================
 
 // Libraries
-#include <Arduino.h>
 #include <DHT.h>
 #include <SevenSegmentDisplay.h>
 
@@ -26,33 +25,21 @@ unsigned long previousMillis = 0;
 // Set interval to read temperature.
 const long interval = 2000;
 
-// Setup 7-Segment Display.
-// Display segments (a,b,c,d,e,f,g)
-int segment_a = 3;
-int segment_b = 4;
-int segment_c = 7;
-int segment_d = 6;
-int segment_e = 5;
-int segment_f = 10;
-int segment_g = 8;
-
-// Display digits (00 - 99)
-int display_0 = 12;
-int display_1 = 11;
-
-// Type
-int type = COMMON_ANODE;
+// Configure a 2-Digit 7-Segment Display.
+int segments[7] = {3, 4, 7, 6, 5, 10, 8}; // Display segments (a,b,c,d,e,f,g)
+int displays[2] = {12, 11}; // Display digits (00 - 99)
+int type = COMMON_ANODE; // Type
 
 SevenSegmentDisplay sevenSegmentDisplay(
-  segment_a,
-  segment_b,
-  segment_c,
-  segment_d,
-  segment_e,
-  segment_f,
-  segment_g,
-  display_0,
-  display_1,
+  segments[0],
+  segments[1],
+  segments[2],
+  segments[3],
+  segments[4],
+  segments[5],
+  segments[6],
+  displays[0],
+  displays[1],
   type
 );
 
@@ -65,6 +52,7 @@ void setup()
 
 void loop()
 {
+  // Get current time in milliseconds.
   unsigned long currentMillis = millis();
 
   // Read temperature every 2 seconds.
