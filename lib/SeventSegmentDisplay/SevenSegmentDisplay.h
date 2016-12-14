@@ -61,6 +61,9 @@ public:
 
   void begin();
   void display(int num);
+  void displayFirstDigit(int num);
+  void displaySecondDigit(int num);
+  void clear();
 };
 
 #endif

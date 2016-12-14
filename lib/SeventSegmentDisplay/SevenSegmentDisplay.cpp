@@ -21,7 +21,7 @@ SevenSegmentDisplay::SevenSegmentDisplay (
 	int _segment_g,
 	int _display_0,
 	int _display_1,
-	int _type = COMMON_CATHODE
+	int _type
 ) {
 	segment_a = _segment_a;
 	segment_b = _segment_b;
@@ -36,6 +36,7 @@ SevenSegmentDisplay::SevenSegmentDisplay (
 }
 
 void SevenSegmentDisplay::begin() {
+	// Setup segments.
 	pinMode(segment_a, OUTPUT);
 	pinMode(segment_b, OUTPUT);
 	pinMode(segment_c, OUTPUT);
@@ -43,6 +44,8 @@ void SevenSegmentDisplay::begin() {
 	pinMode(segment_e, OUTPUT);
 	pinMode(segment_f, OUTPUT);
 	pinMode(segment_g, OUTPUT);
+
+	// Setup displays.
 	pinMode(display_0, OUTPUT);
 	pinMode(display_1, OUTPUT);
 }
@@ -51,6 +54,19 @@ void SevenSegmentDisplay::begin() {
  * Display a number.
  */
 void SevenSegmentDisplay::display(int num) {
+	// Set digits.
+	int firstDigit = num % 10;
+	int secondDigit = (int) num / 10;
+
+	// Display number.
+	SevenSegmentDisplay::displayFirstDigit(firstDigit);
+	SevenSegmentDisplay::displaySecondDigit(secondDigit);
+}
+
+/**
+ * Display a digit.
+ */
+void SevenSegmentDisplay::displayFirstDigit(int num) {
 	int segments[7] = {
 		segment_a,
 		segment_b,
@@ -60,30 +76,14 @@ void SevenSegmentDisplay::display(int num) {
 		segment_f,
 		segment_g
 	};
-	int firstDigit;
-	int secondDigit;
 
-	// Serial.print("\nNumber: ");
-	// Serial.print(num);
-	// Serial.print("\n");
-
-	// Set digits.
-	firstDigit = num % 10;
-	secondDigit = (int) num / 10;
-
-	// Serial.print("\n1st Digit: ");
-	// Serial.print(firstDigit);
-	// Serial.print("\n2nd Digit: ");
-	// Serial.print(secondDigit);
-	// Serial.print("\n");
-
-	// Display first digit.
+	// Display second digit.
 	for (int i = 0; i < 7; i++) {
 	  if (type == COMMON_CATHODE) {
-      digitalWrite(segments[i], numberMap[firstDigit][i]);
+      digitalWrite(segments[i], numberMap[num][i]);
     }
     else {
-      digitalWrite(segments[i], !numberMap[firstDigit][i]);
+      digitalWrite(segments[i], !numberMap[num][i]);
     }
 	}
 	digitalWrite(display_0, LOW);
@@ -91,16 +91,30 @@ void SevenSegmentDisplay::display(int num) {
 	delay(1);
 
 	// Clear
-	digitalWrite(display_0, HIGH);
-	digitalWrite(display_1, HIGH);
+	SevenSegmentDisplay::clear();
+}
+
+/**
+ * Display a digit.
+ */
+void SevenSegmentDisplay::displaySecondDigit(int num) {
+	int segments[7] = {
+		segment_a,
+		segment_b,
+		segment_c,
+		segment_d,
+		segment_e,
+		segment_f,
+		segment_g
+	};
 
 	// Display second digit.
 	for (int i = 0; i < 7; i++) {
 	  if (type == COMMON_CATHODE) {
-      digitalWrite(segments[i], numberMap[secondDigit][i]);
+      digitalWrite(segments[i], numberMap[num][i]);
     }
     else {
-      digitalWrite(segments[i], !numberMap[secondDigit][i]);
+      digitalWrite(segments[i], !numberMap[num][i]);
     }
 	}
 	digitalWrite(display_0, HIGH);
@@ -108,38 +122,13 @@ void SevenSegmentDisplay::display(int num) {
 	delay(1);
 
 	// Clear
+	SevenSegmentDisplay::clear();
+}
+
+/**
+ * Clear display.
+ */
+void SevenSegmentDisplay::clear() {
 	digitalWrite(display_0, HIGH);
 	digitalWrite(display_1, HIGH);
-
-  // Display first digit.
-  // number = num % 10;
-	// if (type == COMMON_CATHODE) {
-	// 	digitalWrite(display_0, HIGH);
-	// }
-	// else {
-	// 	digitalWrite(display_0, LOW);
-	// }
-
-  // Display second digit.
-  // number = (int) num / 10;
-
-  // Display a number.
-	// int segments[7] = {
-	// 	segment_a,
-	// 	segment_b,
-	// 	segment_c,
-	// 	segment_d,
-	// 	segment_e,
-	// 	segment_f,
-	// 	segment_g
-	// };
-	//
-  // for (int segment = 0; segment < 7; segment++) {
-  //   if (type == COMMON_CATHODE) {
-  //     digitalWrite(segments[segment], numberMap[number][segment]);
-  //   }
-  //   else {
-  //     digitalWrite(segments[segment], !numberMap[number][segment]);
-  //   }
-  // }
 }
