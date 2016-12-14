@@ -21,15 +21,8 @@
 class SevenSegmentDisplay
 {
 private:
-  int segment_a;
-	int segment_b;
-	int segment_c;
-	int segment_d;
-	int segment_e;
-	int segment_f;
-  int segment_g;
-	int display_0;
-	int display_1;
+  int segments[7];
+  int displays[2];
   int type;
 
   const bool numberMap[10][7] {
