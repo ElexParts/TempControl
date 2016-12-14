@@ -37,6 +37,9 @@ SevenSegmentDisplay::SevenSegmentDisplay (
 	type = _type;
 }
 
+/**
+ * Setup segment and display pins.
+ */
 void SevenSegmentDisplay::begin() {
 	// Setup segments.
 	for (int i = 0; i < 7; i++) {
@@ -53,20 +56,23 @@ void SevenSegmentDisplay::begin() {
  * Display a number.
  */
 void SevenSegmentDisplay::display(int num) {
+	int digits[2];
+
 	// Set digits.
-	int firstDigit = num % 10;
-	int secondDigit = (int) num / 10;
+	digits[0] = num % 10;
+	digits[1] = (int) num / 10;
 
 	// Display number.
-	SevenSegmentDisplay::displayFirstDigit(firstDigit);
-	SevenSegmentDisplay::displaySecondDigit(secondDigit);
+	for (int i = 0; i < 2; i++) {
+		SevenSegmentDisplay::displayDigit(displays[i], digits[i]);
+	}
 }
 
 /**
- * Display a digit.
+ * Display digits.
  */
-void SevenSegmentDisplay::displayFirstDigit(int num) {
-	// Display second digit.
+void SevenSegmentDisplay::displayDigit(int digit, int num) {
+	// Set a number to display.
 	for (int i = 0; i < 7; i++) {
 	  if (type == COMMON_CATHODE) {
       digitalWrite(segments[i], numberMap[num][i]);
@@ -75,29 +81,9 @@ void SevenSegmentDisplay::displayFirstDigit(int num) {
       digitalWrite(segments[i], !numberMap[num][i]);
     }
 	}
-	digitalWrite(displays[0], LOW);
-	digitalWrite(displays[1], HIGH);
-	delay(1);
 
-	// Clear
-	SevenSegmentDisplay::clear();
-}
-
-/**
- * Display a digit.
- */
-void SevenSegmentDisplay::displaySecondDigit(int num) {
-	// Display second digit.
-	for (int i = 0; i < 7; i++) {
-	  if (type == COMMON_CATHODE) {
-      digitalWrite(segments[i], numberMap[num][i]);
-    }
-    else {
-      digitalWrite(segments[i], !numberMap[num][i]);
-    }
-	}
-	digitalWrite(displays[0], HIGH);
-	digitalWrite(displays[1], LOW);
+	// Set which digit to display.
+	digitalWrite(digit, LOW);
 	delay(1);
 
 	// Clear

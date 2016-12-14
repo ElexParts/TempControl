@@ -54,8 +54,7 @@ public:
 
   void begin();
   void display(int num);
-  void displayFirstDigit(int num);
-  void displaySecondDigit(int num);
+  void displayDigit(int digit, int num);
   void clear();
 };
 
