@@ -62,7 +62,7 @@ void loop()
 
     // Read data and store it to variables hum and temp.
     // hum = dht.readHumidity();
-    temp= dht.readTemperature();
+    temp = dht.readTemperature();
   }
 
   // Display temperature.
