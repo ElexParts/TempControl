@@ -8,10 +8,14 @@
 
 // Libraries
 #include <DHT.h>
-#include <SevenSegmentDisplay.h>
+#include <LiquidCrystal.h>
+
+// Setup Liquid Crystal Display.
+const int rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 // Setup Sensor.
-#define DHTPIN  2         // Temperature Sense pin
+#define DHTPIN  A0        // Temperature Sense pin
 #define DHTTYPE DHT11     // DHT 11
 DHT dht(DHTPIN, DHTTYPE); // Initialize DHT Sensor
 
@@ -25,29 +29,11 @@ unsigned long previousMillis = 0;
 // Set interval to read temperature.
 const long interval = 2000;
 
-// Configure a 2-Digit 7-Segment Display.
-int segments[7] = {3, 4, 7, 6, 5, 10, 8}; // Display segments (a,b,c,d,e,f,g)
-int displays[2] = {12, 11}; // Display digits (00 - 99)
-int type = COMMON_ANODE; // Type
-
-SevenSegmentDisplay sevenSegmentDisplay(
-  segments[0],
-  segments[1],
-  segments[2],
-  segments[3],
-  segments[4],
-  segments[5],
-  segments[6],
-  displays[0],
-  displays[1],
-  type
-);
-
 void setup()
 {
-  Serial.begin(9600);
+  // Serial.begin(9600);
   dht.begin();
-  sevenSegmentDisplay.begin();
+  lcd.begin(16, 2);
 }
 
 void loop()
@@ -57,14 +43,31 @@ void loop()
 
   // Read temperature every 2 seconds.
   if (currentMillis - previousMillis >= interval) {
+    // Clear screen.
+    // lcd.clear();
+
     // Save the last time we've read the temperature.
     previousMillis = currentMillis;
 
     // Read data and store it to variables hum and temp.
-    // hum = dht.readHumidity();
+    hum = dht.readHumidity();
     temp = dht.readTemperature();
+
+    // Serial.print("Temperature: ");
+    // Serial.println(temp);
+    // Serial.print("Humidity: ");
+    // Serial.println(hum);
   }
 
   // Display temperature.
-  sevenSegmentDisplay.display(temp);
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: ");
+  lcd.print(temp);
+  lcd.print(" deg");
+
+  // Display humidity.
+  lcd.setCursor(0, 1);
+  lcd.print(" Hum: ");
+  lcd.print(hum);
+  lcd.print("%");
 }
