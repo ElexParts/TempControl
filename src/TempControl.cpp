@@ -1,9 +1,9 @@
 //============================================================================
 // Name        : TempControl.ino
 // Author      : Romualdo Dasig
-// Version     : v0.1
+// Version     : v1.0.0
 // Copyright   : MIT License
-// Description : Display temperature to a Seven Segment LED Display
+// Description : Display temperature and humidity on a Liquid Crystal Display
 //============================================================================
 
 // Libraries
@@ -31,9 +31,18 @@ const long interval = 2000;
 
 void setup()
 {
-  // Serial.begin(9600);
   dht.begin();
   lcd.begin(16, 2);
+
+  lcd.print("Initializing");
+  int i = 3;
+  while(i > 0) {
+    delay(1000);
+    lcd.print(".");
+    i--;
+  }
+  delay(1000);
+  lcd.clear();
 }
 
 void loop()
@@ -43,20 +52,12 @@ void loop()
 
   // Read temperature every 2 seconds.
   if (currentMillis - previousMillis >= interval) {
-    // Clear screen.
-    // lcd.clear();
-
     // Save the last time we've read the temperature.
     previousMillis = currentMillis;
 
     // Read data and store it to variables hum and temp.
     hum = dht.readHumidity();
     temp = dht.readTemperature();
-
-    // Serial.print("Temperature: ");
-    // Serial.println(temp);
-    // Serial.print("Humidity: ");
-    // Serial.println(hum);
   }
 
   // Display temperature.
