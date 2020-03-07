@@ -70,5 +70,5 @@ void loop()
   lcd.setCursor(0, 1);
   lcd.print(" Hum: ");
   lcd.print(hum);
-  lcd.print("%");
+  lcd.print(" %");
 }
